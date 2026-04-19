@@ -42,8 +42,19 @@ RUN go install github.com/air-verse/air@latest
 RUN curl -fsSL https://bun.sh/install | BUN_INSTALL=/usr/local bash
 ENV PATH="/usr/local/bin:$PATH"
 
+# 1. Manually set the paths pnpm expects
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+# 2. Tell pnpm which shell we are using
+ENV SHELL=/bin/bash
+
+# 3. Skip setup and go straight to the add command
+RUN npm install -g pnpm && \
+    pnpm add -g npm@latest typescript vite create-vite eslint prettier && \
+    npm cache clean --force
+
 # Install common global npm packages for development
-RUN npm install -g npm@latest pnpm typescript vite create-vite eslint prettier
+# RUN npm install -g npm@latest pnpm typescript vite create-vite eslint prettier
 
 # Create project directory (will be mounted/populated at runtime)
 WORKDIR /project
