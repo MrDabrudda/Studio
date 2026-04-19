@@ -195,5 +195,13 @@ k8s/overlays/*/generated-*.yaml
 # uv.lockbackups/
 nul
 
+#Backups and Locks
+uv.lock
+*.lock
+backups/
+
 # Code Analysis Output
 analysis-output/
+
+#Roo Code
+.roo/
